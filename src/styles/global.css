@@ -17,6 +17,9 @@ body {
   background-color: var(--background-color);
   margin: 0;
   padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -24,6 +27,12 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 1rem;
+}
+
+/* Prevent cursor in non-editable text */
+p, h1, h2, h3, h4, h5, h6, span, div {
+  cursor: default;
+  user-select: none;
 }
 
 /* Responsive typography */
@@ -123,8 +132,50 @@ a {
   color: var(--secondary-color);
   text-decoration: none;
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
 a:hover {
   color: var(--accent-color);
+}
+
+/* Footer styles */
+footer {
+  background-color: var(--surface-color);
+  color: var(--on-surface);
+  padding: 2rem 0;
+  margin-top: auto;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  flex: 1;
+  margin: 0 1rem;
+  min-width: 200px;
+}
+
+.footer-section h3 {
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.footer-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--on-surface);
 }

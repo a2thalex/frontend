@@ -2,6 +2,7 @@ import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import LoadingIndicator from './components/LoadingIndicator';
 import { useAnalytics } from './hooks/useAnalytics';
@@ -63,6 +64,7 @@ function App() {
               </Routes>
             </Suspense>
           </main>
+          <Footer />
         </div>
       </ErrorBoundary>
     </IntlProvider>
