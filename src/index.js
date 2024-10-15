@@ -9,6 +9,7 @@ import store from './redux/store';
 import './styles/global.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
