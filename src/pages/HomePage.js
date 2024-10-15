@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchFeaturedTracks, fetchFeaturedArtists } from '../redux/actions/dataActions';
+import { fetchFeaturedTracks, fetchFeaturedArtists, fetchGenresWithTracks, fetchFeaturedArtistAillusion } from '../redux/actions/dataActions';
 import LoadingIndicator from '../components/LoadingIndicator';
 import styles from './HomePage.module.css';
 import heroBackgroundImage from '../assets/hero-background.jpg';
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { featuredTracks, featuredArtists, loading, error } = useSelector(state => state.data);
+  const { featuredTracks, featuredArtists, genresWithTracks, featuredArtistAillusion, loading, error } = useSelector(state => state.data);
   const { isAuthenticated } = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(fetchFeaturedTracks());
     dispatch(fetchFeaturedArtists());
+    dispatch(fetchGenresWithTracks());
+    dispatch(fetchFeaturedArtistAillusion());
   }, [dispatch]);
 
   if (loading) return <LoadingIndicator />;
   if (error) return <div className={styles.error}>Error: {error}</div>;
-
-  const trendingGenres = ['Hip Hop', 'Electronic', 'Rock', 'Pop', 'R&B'];
 
   return (
     <div className={styles.container}>
@@ -33,15 +33,29 @@ const HomePage = () => {
         </div>
       </section>
 
-      {featuredArtists && featuredArtists.length > 0 && (
+      {featuredArtistAillusion && (
         <section className={styles.featuredArtistSection}>
-          <h2 className={styles.sectionTitle}>Featured Artist</h2>
+          <h2 className={styles.sectionTitle}>Featured Artist: Aillusion</h2>
           <div className={styles.featuredArtistCard}>
-            <img src={featuredArtists[0].profilePicture || '/default-artist.jpg'} alt={featuredArtists[0].name} className={styles.featuredArtistImage} />
+            <img src={featuredArtistAillusion.artist.profilePicture || '/default-artist.jpg'} alt={featuredArtistAillusion.artist.name} className={styles.featuredArtistImage} />
             <div className={styles.featuredArtistContent}>
-              <h3 className={styles.featuredArtistName}>{featuredArtists[0].name}</h3>
-              <p className={styles.featuredArtistBio}>{featuredArtists[0].bio || 'No bio available'}</p>
-              <Link to={`/artists/${featuredArtists[0].id}`} className={styles.featuredArtistLink}>View Profile</Link>
+              <h3 className={styles.featuredArtistName}>{featuredArtistAillusion.artist.name}</h3>
+              <p className={styles.featuredArtistBio}>{featuredArtistAillusion.artist.bio || 'No bio available'}</p>
+              <Link to={`/artists/${featuredArtistAillusion.artist._id}`} className={styles.featuredArtistLink}>View Profile</Link>
+            </div>
+          </div>
+          <div className={styles.featuredArtistTracks}>
+            <h3>Tracks by Aillusion</h3>
+            <div className={styles.trackList}>
+              {featuredArtistAillusion.tracks.map(track => (
+                <div key={track._id} className={styles.trackItem}>
+                  <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.trackImage} />
+                  <div className={styles.trackInfo}>
+                    <h4>{track.title}</h4>
+                    <Link to={`/tracks/${track._id}`} className={styles.listenButton}>Listen Now</Link>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -52,12 +66,12 @@ const HomePage = () => {
         <div className={styles.cardGrid}>
           {featuredTracks && featuredTracks.length > 0 ? (
             featuredTracks.map(track => (
-              <div key={track.id} className={styles.card}>
+              <div key={track._id} className={styles.card}>
                 <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.cardImage} />
                 <div className={styles.cardContent}>
                   <h3 className={styles.cardTitle}>{track.title}</h3>
                   <p className={styles.cardArtist}>{track.artist}</p>
-                  <Link to={`/tracks/${track.id}`} className={styles.cardLink}>Listen Now</Link>
+                  <Link to={`/tracks/${track._id}`} className={styles.cardLink}>Listen Now</Link>
                 </div>
               </div>
             ))
@@ -67,35 +81,25 @@ const HomePage = () => {
         </div>
       </section>
 
-      <section className={styles.trendingSection}>
-        <h2 className={styles.sectionTitle}>Trending Genres</h2>
-        <div className={styles.genreGrid}>
-          {trendingGenres.map(genre => (
-            <Link key={genre} to={`/genres/${genre.toLowerCase()}`} className={styles.genreCard}>
-              {genre}
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className={styles.featuredSection}>
-        <h2 className={styles.sectionTitle}>Featured Artists</h2>
-        <div className={styles.cardGrid}>
-          {featuredArtists && featuredArtists.length > 0 ? (
-            featuredArtists.map(artist => (
-              <div key={artist.id} className={styles.card}>
-                <img src={artist.profilePicture || '/default-artist.jpg'} alt={artist.name} className={styles.cardImage} />
-                <div className={styles.cardContent}>
-                  <h3 className={styles.cardTitle}>{artist.name}</h3>
-                  <p className={styles.cardGenre}>{artist.genre}</p>
-                  <Link to={`/artists/${artist.id}`} className={styles.cardLink}>View Profile</Link>
+      <section className={styles.genresSection}>
+        <h2 className={styles.sectionTitle}>Explore Genres</h2>
+        {genresWithTracks.map(genre => (
+          <div key={genre.genre} className={styles.genreSection}>
+            <h3 className={styles.genreTitle}>{genre.genre}</h3>
+            <div className={styles.trackList}>
+              {genre.tracks.map(track => (
+                <div key={track._id} className={styles.trackItem}>
+                  <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.trackImage} />
+                  <div className={styles.trackInfo}>
+                    <h4>{track.title}</h4>
+                    <p>{track.artist}</p>
+                    <Link to={`/tracks/${track._id}`} className={styles.listenButton}>Listen Now</Link>
+                  </div>
                 </div>
-              </div>
-            ))
-          ) : (
-            <p>No featured artists available at the moment.</p>
-          )}
-        </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </section>
 
       <section className={styles.joinSection}>

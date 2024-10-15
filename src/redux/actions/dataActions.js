@@ -1,40 +1,57 @@
 import api from '../../utils/api';
 
-// Action Types
 export const FETCH_FEATURED_TRACKS_REQUEST = 'FETCH_FEATURED_TRACKS_REQUEST';
 export const FETCH_FEATURED_TRACKS_SUCCESS = 'FETCH_FEATURED_TRACKS_SUCCESS';
 export const FETCH_FEATURED_TRACKS_FAILURE = 'FETCH_FEATURED_TRACKS_FAILURE';
+
 export const FETCH_FEATURED_ARTISTS_REQUEST = 'FETCH_FEATURED_ARTISTS_REQUEST';
 export const FETCH_FEATURED_ARTISTS_SUCCESS = 'FETCH_FEATURED_ARTISTS_SUCCESS';
 export const FETCH_FEATURED_ARTISTS_FAILURE = 'FETCH_FEATURED_ARTISTS_FAILURE';
 
-// Action Creators
-export const fetchFeaturedTracksRequest = () => ({ type: FETCH_FEATURED_TRACKS_REQUEST });
-export const fetchFeaturedTracksSuccess = (tracks) => ({ type: FETCH_FEATURED_TRACKS_SUCCESS, payload: tracks });
-export const fetchFeaturedTracksFailure = (error) => ({ type: FETCH_FEATURED_TRACKS_FAILURE, payload: error });
+export const FETCH_GENRES_WITH_TRACKS_REQUEST = 'FETCH_GENRES_WITH_TRACKS_REQUEST';
+export const FETCH_GENRES_WITH_TRACKS_SUCCESS = 'FETCH_GENRES_WITH_TRACKS_SUCCESS';
+export const FETCH_GENRES_WITH_TRACKS_FAILURE = 'FETCH_GENRES_WITH_TRACKS_FAILURE';
 
-export const fetchFeaturedArtistsRequest = () => ({ type: FETCH_FEATURED_ARTISTS_REQUEST });
-export const fetchFeaturedArtistsSuccess = (artists) => ({ type: FETCH_FEATURED_ARTISTS_SUCCESS, payload: artists });
-export const fetchFeaturedArtistsFailure = (error) => ({ type: FETCH_FEATURED_ARTISTS_FAILURE, payload: error });
+export const FETCH_FEATURED_ARTIST_AILLUSION_REQUEST = 'FETCH_FEATURED_ARTIST_AILLUSION_REQUEST';
+export const FETCH_FEATURED_ARTIST_AILLUSION_SUCCESS = 'FETCH_FEATURED_ARTIST_AILLUSION_SUCCESS';
+export const FETCH_FEATURED_ARTIST_AILLUSION_FAILURE = 'FETCH_FEATURED_ARTIST_AILLUSION_FAILURE';
 
-// Thunk action to fetch featured tracks
 export const fetchFeaturedTracks = () => async (dispatch) => {
-  dispatch(fetchFeaturedTracksRequest());
+  dispatch({ type: FETCH_FEATURED_TRACKS_REQUEST });
   try {
     const response = await api.get('/featured-tracks');
-    dispatch(fetchFeaturedTracksSuccess(response.data));
+    dispatch({ type: FETCH_FEATURED_TRACKS_SUCCESS, payload: response.data });
   } catch (error) {
-    dispatch(fetchFeaturedTracksFailure(error.message));
+    dispatch({ type: FETCH_FEATURED_TRACKS_FAILURE, payload: error.message });
   }
 };
 
-// Thunk action to fetch featured artists
 export const fetchFeaturedArtists = () => async (dispatch) => {
-  dispatch(fetchFeaturedArtistsRequest());
+  dispatch({ type: FETCH_FEATURED_ARTISTS_REQUEST });
   try {
     const response = await api.get('/featured-artists');
-    dispatch(fetchFeaturedArtistsSuccess(response.data));
+    dispatch({ type: FETCH_FEATURED_ARTISTS_SUCCESS, payload: response.data });
   } catch (error) {
-    dispatch(fetchFeaturedArtistsFailure(error.message));
+    dispatch({ type: FETCH_FEATURED_ARTISTS_FAILURE, payload: error.message });
+  }
+};
+
+export const fetchGenresWithTracks = () => async (dispatch) => {
+  dispatch({ type: FETCH_GENRES_WITH_TRACKS_REQUEST });
+  try {
+    const response = await api.get('/genres-with-tracks');
+    dispatch({ type: FETCH_GENRES_WITH_TRACKS_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: FETCH_GENRES_WITH_TRACKS_FAILURE, payload: error.message });
+  }
+};
+
+export const fetchFeaturedArtistAillusion = () => async (dispatch) => {
+  dispatch({ type: FETCH_FEATURED_ARTIST_AILLUSION_REQUEST });
+  try {
+    const response = await api.get('/featured-artist/aillusion');
+    dispatch({ type: FETCH_FEATURED_ARTIST_AILLUSION_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: FETCH_FEATURED_ARTIST_AILLUSION_FAILURE, payload: error.message });
   }
 };
