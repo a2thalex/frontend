@@ -54,7 +54,7 @@ const Header = ({ locale, onLanguageChange, darkMode, onDarkModeToggle, enableDa
                   </Link>
                 </li>
                 <li className={styles.navItem}>
-                  <button onClick={handleLogout} className={styles.navLink} aria-label="Logout">
+                  <button onClick={handleLogout} className={styles.logoutButton} aria-label="Logout">
                     <FormattedMessage id="app.header.logout" defaultMessage="Logout" />
                   </button>
                 </li>
