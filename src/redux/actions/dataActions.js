@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // Action Types
 export const FETCH_DATA_REQUEST = 'FETCH_DATA_REQUEST';
 export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
@@ -26,9 +28,8 @@ export const fetchFeaturedArtistsFailure = (error) => ({ type: FETCH_FEATURED_AR
 export const fetchData = () => async (dispatch) => {
   dispatch(fetchDataRequest());
   try {
-    const response = await fetch('/api/data');
-    const data = await response.json();
-    dispatch(fetchDataSuccess(data));
+    const response = await axios.get('/api/data');
+    dispatch(fetchDataSuccess(response.data));
   } catch (error) {
     dispatch(fetchDataFailure(error.message));
   }
@@ -38,9 +39,8 @@ export const fetchData = () => async (dispatch) => {
 export const fetchFeaturedTracks = () => async (dispatch) => {
   dispatch(fetchFeaturedTracksRequest());
   try {
-    const response = await fetch('/api/featured-tracks');
-    const tracks = await response.json();
-    dispatch(fetchFeaturedTracksSuccess(tracks));
+    const response = await axios.get('/api/featured-tracks');
+    dispatch(fetchFeaturedTracksSuccess(response.data));
   } catch (error) {
     dispatch(fetchFeaturedTracksFailure(error.message));
   }
@@ -50,9 +50,8 @@ export const fetchFeaturedTracks = () => async (dispatch) => {
 export const fetchFeaturedArtists = () => async (dispatch) => {
   dispatch(fetchFeaturedArtistsRequest());
   try {
-    const response = await fetch('/api/featured-artists');
-    const artists = await response.json();
-    dispatch(fetchFeaturedArtistsSuccess(artists));
+    const response = await axios.get('/api/featured-artists');
+    dispatch(fetchFeaturedArtistsSuccess(response.data));
   } catch (error) {
     dispatch(fetchFeaturedArtistsFailure(error.message));
   }

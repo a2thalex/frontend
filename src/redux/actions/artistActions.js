@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // Action Types
 export const FETCH_ARTISTS_REQUEST = 'FETCH_ARTISTS_REQUEST';
 export const FETCH_ARTISTS_SUCCESS = 'FETCH_ARTISTS_SUCCESS';
@@ -26,9 +28,8 @@ export const fetchArtistTracksFailure = (error) => ({ type: FETCH_ARTIST_TRACKS_
 export const fetchArtists = () => async (dispatch) => {
   dispatch(fetchArtistsRequest());
   try {
-    const response = await fetch('/api/artists');
-    const data = await response.json();
-    dispatch(fetchArtistsSuccess(data));
+    const response = await axios.get('/api/artists');
+    dispatch(fetchArtistsSuccess(response.data));
   } catch (error) {
     dispatch(fetchArtistsFailure(error.message));
   }
@@ -38,9 +39,8 @@ export const fetchArtists = () => async (dispatch) => {
 export const fetchArtist = (artistId) => async (dispatch) => {
   dispatch(fetchArtistRequest());
   try {
-    const response = await fetch(`/api/artists/${artistId}`);
-    const data = await response.json();
-    dispatch(fetchArtistSuccess(data));
+    const response = await axios.get(`/api/artists/${artistId}`);
+    dispatch(fetchArtistSuccess(response.data));
   } catch (error) {
     dispatch(fetchArtistFailure(error.message));
   }
@@ -50,9 +50,8 @@ export const fetchArtist = (artistId) => async (dispatch) => {
 export const fetchArtistTracks = (artistId) => async (dispatch) => {
   dispatch(fetchArtistTracksRequest());
   try {
-    const response = await fetch(`/api/artists/${artistId}/tracks`);
-    const data = await response.json();
-    dispatch(fetchArtistTracksSuccess(data));
+    const response = await axios.get(`/api/artists/${artistId}/tracks`);
+    dispatch(fetchArtistTracksSuccess(response.data));
   } catch (error) {
     dispatch(fetchArtistTracksFailure(error.message));
   }

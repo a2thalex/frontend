@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // Action Types
 export const FETCH_USER_REQUEST = 'FETCH_USER_REQUEST';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
@@ -26,9 +28,8 @@ export const updateUserProfileFailure = (error) => ({ type: UPDATE_USER_PROFILE_
 export const fetchUser = (userId) => async (dispatch) => {
   dispatch(fetchUserRequest());
   try {
-    const response = await fetch(`/api/users/${userId}`);
-    const data = await response.json();
-    dispatch(fetchUserSuccess(data));
+    const response = await axios.get(`/api/users/${userId}`);
+    dispatch(fetchUserSuccess(response.data));
   } catch (error) {
     dispatch(fetchUserFailure(error.message));
   }
@@ -38,9 +39,8 @@ export const fetchUser = (userId) => async (dispatch) => {
 export const fetchUserProfile = (userId) => async (dispatch) => {
   dispatch(fetchUserProfileRequest());
   try {
-    const response = await fetch(`/api/users/${userId}/profile`);
-    const data = await response.json();
-    dispatch(fetchUserProfileSuccess(data));
+    const response = await axios.get(`/api/users/${userId}/profile`);
+    dispatch(fetchUserProfileSuccess(response.data));
   } catch (error) {
     dispatch(fetchUserProfileFailure(error.message));
   }
@@ -50,15 +50,8 @@ export const fetchUserProfile = (userId) => async (dispatch) => {
 export const updateUserProfile = (userId, profileData) => async (dispatch) => {
   dispatch(updateUserProfileRequest());
   try {
-    const response = await fetch(`/api/users/${userId}/profile`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(profileData),
-    });
-    const data = await response.json();
-    dispatch(updateUserProfileSuccess(data));
+    const response = await axios.put(`/api/users/${userId}/profile`, profileData);
+    dispatch(updateUserProfileSuccess(response.data));
   } catch (error) {
     dispatch(updateUserProfileFailure(error.message));
   }
