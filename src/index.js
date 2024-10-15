@@ -1,3 +1,5 @@
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -7,13 +9,16 @@ import store from './redux/store';
 import './styles/global.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-Sentry.init({
-  dsn: "YOUR_SENTRY_DSN", // Replace with your actual Sentry DSN
-  integrations: [new BrowserTracing()],
-  tracesSampleRate: 1.0,
-});
+if (process.env.REACT_APP_SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    integrations: [new BrowserTracing()],
+    tracesSampleRate: 1.0,
+  });
+} else {
+  console.warn('Sentry DSN not found. Error tracking is disabled.');
+}
 
 ReactDOM.render(
   <React.StrictMode>
