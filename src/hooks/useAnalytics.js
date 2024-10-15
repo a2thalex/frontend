@@ -5,20 +5,24 @@ export const useAnalytics = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (window.gtag) {
+    if (typeof window.gtag === 'function') {
       window.gtag('event', 'page_view', {
         page_path: location.pathname + location.search,
       });
+    } else {
+      console.warn('Google Analytics not initialized');
     }
   }, [location]);
 
   const trackEvent = (action, category, label, value) => {
-    if (window.gtag) {
+    if (typeof window.gtag === 'function') {
       window.gtag('event', action, {
         event_category: category,
         event_label: label,
         value: value,
       });
+    } else {
+      console.warn('Google Analytics not initialized');
     }
   };
 
