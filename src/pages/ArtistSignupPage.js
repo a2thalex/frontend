@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import styles from './ArtistSignupPage.module.css';
 
 const ArtistSignupPage = () => {
-  const dispatch = useDispatch();
   const [step, setStep] = useState(1);
   const [artistInfo, setArtistInfo] = useState({
     name: '',
@@ -38,6 +36,8 @@ const ArtistSignupPage = () => {
       setStep(step + 1);
     } else {
       // Finish the signup process
+      // You would typically dispatch an action here to handle the signup process
+      console.log('Signup process completed');
     }
   };
 
