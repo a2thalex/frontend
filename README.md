@@ -1,6 +1,15 @@
 # nTunz Frontend
 
-This is the frontend application for the nTunz platform.
+This is the frontend application for the nTunz platform, featuring a modern and responsive design with a vibrant color scheme.
+
+## Features
+
+- Modern, responsive design with a vibrant color scheme
+- Hero section showcasing featured content
+- Display of featured tracks and artists
+- Dark mode toggle for user preference
+- Language selection (supports English and Spanish)
+- Optimized images for faster loading
 
 ## Local Development
 
@@ -29,6 +38,7 @@ Make sure the following environment variables are set in your Netlify project se
 - `npm start`: Runs the app in development mode
 - `npm test`: Launches the test runner
 - `npm run build`: Builds the app for production
+- `npm run optimize-images`: Optimizes images in the public folder for better performance
 
 ## Notes
 
@@ -36,3 +46,13 @@ Make sure the following environment variables are set in your Netlify project se
 - API calls are made using Axios, with the base URL set from the REACT_APP_API_URL environment variable.
 - Make sure the backend CORS settings allow requests from your Netlify domain.
 - To deploy changes, simply push your commits to the main branch of the Git repository.
+- The dark mode toggle and language selection features are available in the header component.
+- Images are optimized using the `optimize-images` script, which should be run before deployment for best performance.
+
+## Customization
+
+- To modify the color scheme, update the CSS variables in `src/styles/global.css`.
+- To add or modify features, refer to the components in the `src/components` directory.
+- The main layout and routing are handled in `src/App.js`.
+
+For any questions or issues, please refer to the project documentation or contact the development team.
