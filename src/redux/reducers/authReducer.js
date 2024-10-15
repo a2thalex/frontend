@@ -1,47 +1,57 @@
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  LOGOUT,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE
+} from '../actions/authActions';
+
 const initialState = {
-  token: localStorage.getItem('token'),
   user: null,
-  isAuthenticated: false,
-  loading: true,
+  loading: false,
   error: null,
+  isAuthenticated: false
 };
 
-function authReducer(state = initialState, action) {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
-    case 'REGISTER_SUCCESS':
-    case 'FETCH_USER_SUCCESS':
-      localStorage.setItem('token', action.payload.token);
+    case LOGIN_REQUEST:
+    case REGISTER_REQUEST:
       return {
         ...state,
-        token: action.payload.token,
-        user: action.payload.user,
+        loading: true,
+        error: null
+      };
+    case LOGIN_SUCCESS:
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
         isAuthenticated: true,
-        loading: false,
+        user: action.payload.user,
+        error: null
       };
-    case 'LOGIN_FAIL':
-    case 'REGISTER_FAIL':
-    case 'FETCH_USER_FAIL':
-      localStorage.removeItem('token');
+    case LOGIN_FAILURE:
+    case REGISTER_FAILURE:
       return {
         ...state,
-        token: null,
-        user: null,
+        loading: false,
         isAuthenticated: false,
-        loading: false,
-        error: action.payload,
+        user: null,
+        error: action.payload
       };
-    case 'UPDATE_NCOINS':
+    case LOGOUT:
       return {
         ...state,
-        user: {
-          ...state.user,
-          nCoins: action.payload
-        }
+        isAuthenticated: false,
+        user: null,
+        error: null
       };
     default:
       return state;
   }
-}
+};
 
 export default authReducer;

@@ -1,43 +1,39 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { submitFeedback } from '../redux/actions/feedbackActions';
+import PropTypes from 'prop-types';
+import styles from './FeedbackForm.module.css';
 
-const FeedbackForm = ({ trackId }) => {
+const FeedbackForm = ({ onSubmit }) => {
   const [content, setContent] = useState('');
-  const [rating, setRating] = useState(0);
-  const dispatch = useDispatch();
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(submitFeedback(trackId, { rating, content }));
-    setContent('');
-    setRating(0);
+    if (content.trim()) {
+      onSubmit(content);
+      setContent('');
+      setError('');
+    } else {
+      setError('Feedback cannot be empty');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Submit Feedback</h3>
-      <div>
-        <label>Rating: </label>
-        {[1, 2, 3, 4, 5].map((star) => (
-          <span
-            key={star}
-            onClick={() => setRating(star)}
-            style={{ cursor: 'pointer', color: star <= rating ? 'gold' : 'gray' }}
-          >
-            ★
-          </span>
-        ))}
-      </div>
+    <form onSubmit={handleSubmit} className={styles.form}>
       <textarea
+        className={styles.textarea}
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="Enter your feedback here"
-        required
+        placeholder="Write your feedback here..."
+        rows="4"
       />
-      <button type="submit" disabled={rating === 0}>Submit</button>
+      {error && <p className={styles.error}>{error}</p>}
+      <button type="submit" className={styles.submitButton}>Submit Feedback</button>
     </form>
   );
+};
+
+FeedbackForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default FeedbackForm;

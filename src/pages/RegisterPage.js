@@ -1,60 +1,92 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../redux/actions/authActions';
-import { useNavigate } from 'react-router-dom';
+import LoadingIndicator from '../components/LoadingIndicator';
+import styles from './RegisterPage.module.css';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { error } = useSelector(state => state.auth);
+  const { loading, error } = useSelector(state => state.auth);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(register(username, email, password));
-    // Assuming successful registration redirects to home page
-    navigate('/');
+  const validateForm = () => {
+    const newErrors = {};
+    if (!username) newErrors.username = 'Username is required';
+    if (!email) newErrors.email = 'Email is required';
+    if (!password) newErrors.password = 'Password is required';
+    if (password !== confirmPassword) newErrors.confirmPassword = 'Passwords do not match';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      const result = await dispatch(register(username, email, password));
+      if (result.type === 'REGISTER_SUCCESS') {
+        navigate('/');
+      }
+    }
+  };
+
+  if (loading) return <LoadingIndicator />;
+
   return (
-    <div>
-      <h2>Register</h2>
-      {error && <p style={{color: 'red'}}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Register</h1>
+      {error && <p className={styles.error}>{error}</p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
           <label htmlFor="username">Username:</label>
           <input
             type="text"
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required
           />
+          {errors.username && <span className={styles.fieldError}>{errors.username}</span>}
         </div>
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
+          {errors.email && <span className={styles.fieldError}>{errors.email}</span>}
         </div>
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="password">Password:</label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
+          {errors.password && <span className={styles.fieldError}>{errors.password}</span>}
         </div>
-        <button type="submit">Register</button>
+        <div className={styles.formGroup}>
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          {errors.confirmPassword && <span className={styles.fieldError}>{errors.confirmPassword}</span>}
+        </div>
+        <button type="submit" className={styles.submitButton}>Register</button>
       </form>
+      <p className={styles.loginLink}>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
     </div>
   );
 };

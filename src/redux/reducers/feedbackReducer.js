@@ -7,7 +7,7 @@ import {
 const initialState = {
   loading: false,
   error: null,
-  feedback: []
+  lastSubmittedFeedback: null
 };
 
 const feedbackReducer = (state = initialState, action) => {
@@ -22,7 +22,8 @@ const feedbackReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        feedback: [...state.feedback, action.payload]
+        lastSubmittedFeedback: action.payload,
+        error: null
       };
     case SUBMIT_FEEDBACK_FAILURE:
       return {

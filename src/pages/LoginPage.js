@@ -1,49 +1,88 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { login } from '../redux/actions/authActions';
-import { useNavigate } from 'react-router-dom';
+import LoadingIndicator from '../components/LoadingIndicator';
+import styles from './LoginPage.module.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { error } = useSelector(state => state.auth);
+  const { loading, error } = useSelector(state => state.auth);
+  const intl = useIntl();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(login(email, password));
-    // Assuming successful login redirects to home page
-    navigate('/');
+  const validateForm = () => {
+    const newErrors = {};
+    if (!email) newErrors.email = intl.formatMessage({ id: 'app.login.emailRequired', defaultMessage: 'Email is required' });
+    if (!password) newErrors.password = intl.formatMessage({ id: 'app.login.passwordRequired', defaultMessage: 'Password is required' });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      const result = await dispatch(login(email, password));
+      if (result.type === 'LOGIN_SUCCESS') {
+        navigate('/');
+      }
+    }
+  };
+
+  if (loading) return <LoadingIndicator />;
+
   return (
-    <div>
-      <h2>Login</h2>
-      {error && <p style={{color: 'red'}}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
+    <div className={styles.container}>
+      <h1 className={styles.title}>
+        <FormattedMessage id="app.login.title" defaultMessage="Login" />
+      </h1>
+      {error && <p className={styles.error}>{error}</p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <label htmlFor="email">
+            <FormattedMessage id="app.login.email" defaultMessage="Email" />:
+          </label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
+          {errors.email && <span className={styles.fieldError}>{errors.email}</span>}
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
+        <div className={styles.formGroup}>
+          <label htmlFor="password">
+            <FormattedMessage id="app.login.password" defaultMessage="Password" />:
+          </label>
           <input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
           />
+          {errors.password && <span className={styles.fieldError}>{errors.password}</span>}
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" className={styles.submitButton}>
+          <FormattedMessage id="app.login.submit" defaultMessage="Login" />
+        </button>
       </form>
+      <p className={styles.registerLink}>
+        <FormattedMessage 
+          id="app.login.registerPrompt" 
+          defaultMessage="Don't have an account? {registerLink}"
+          values={{
+            registerLink: (
+              <Link to="/register">
+                <FormattedMessage id="app.login.registerLink" defaultMessage="Register here" />
+              </Link>
+            ),
+          }}
+        />
+      </p>
     </div>
   );
 };

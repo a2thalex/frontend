@@ -1,6 +1,5 @@
-import axios from 'axios';
+import api from '../../utils/api';
 
-// Action Types
 export const FETCH_ARTISTS_REQUEST = 'FETCH_ARTISTS_REQUEST';
 export const FETCH_ARTISTS_SUCCESS = 'FETCH_ARTISTS_SUCCESS';
 export const FETCH_ARTISTS_FAILURE = 'FETCH_ARTISTS_FAILURE';
@@ -11,48 +10,32 @@ export const FETCH_ARTIST_TRACKS_REQUEST = 'FETCH_ARTIST_TRACKS_REQUEST';
 export const FETCH_ARTIST_TRACKS_SUCCESS = 'FETCH_ARTIST_TRACKS_SUCCESS';
 export const FETCH_ARTIST_TRACKS_FAILURE = 'FETCH_ARTIST_TRACKS_FAILURE';
 
-// Action Creators
-export const fetchArtistsRequest = () => ({ type: FETCH_ARTISTS_REQUEST });
-export const fetchArtistsSuccess = (artists) => ({ type: FETCH_ARTISTS_SUCCESS, payload: artists });
-export const fetchArtistsFailure = (error) => ({ type: FETCH_ARTISTS_FAILURE, payload: error });
-
-export const fetchArtistRequest = () => ({ type: FETCH_ARTIST_REQUEST });
-export const fetchArtistSuccess = (artist) => ({ type: FETCH_ARTIST_SUCCESS, payload: artist });
-export const fetchArtistFailure = (error) => ({ type: FETCH_ARTIST_FAILURE, payload: error });
-
-export const fetchArtistTracksRequest = () => ({ type: FETCH_ARTIST_TRACKS_REQUEST });
-export const fetchArtistTracksSuccess = (tracks) => ({ type: FETCH_ARTIST_TRACKS_SUCCESS, payload: tracks });
-export const fetchArtistTracksFailure = (error) => ({ type: FETCH_ARTIST_TRACKS_FAILURE, payload: error });
-
-// Thunk action to fetch artists
 export const fetchArtists = () => async (dispatch) => {
-  dispatch(fetchArtistsRequest());
+  dispatch({ type: FETCH_ARTISTS_REQUEST });
   try {
-    const response = await axios.get('/api/artists');
-    dispatch(fetchArtistsSuccess(response.data));
+    const response = await api.get('/artists');
+    dispatch({ type: FETCH_ARTISTS_SUCCESS, payload: response.data });
   } catch (error) {
-    dispatch(fetchArtistsFailure(error.message));
+    dispatch({ type: FETCH_ARTISTS_FAILURE, payload: error.message });
   }
 };
 
-// Thunk action to fetch a single artist
-export const fetchArtist = (artistId) => async (dispatch) => {
-  dispatch(fetchArtistRequest());
+export const fetchArtist = (id) => async (dispatch) => {
+  dispatch({ type: FETCH_ARTIST_REQUEST });
   try {
-    const response = await axios.get(`/api/artists/${artistId}`);
-    dispatch(fetchArtistSuccess(response.data));
+    const response = await api.get(`/artists/${id}`);
+    dispatch({ type: FETCH_ARTIST_SUCCESS, payload: response.data });
   } catch (error) {
-    dispatch(fetchArtistFailure(error.message));
+    dispatch({ type: FETCH_ARTIST_FAILURE, payload: error.message });
   }
 };
 
-// Thunk action to fetch artist tracks
-export const fetchArtistTracks = (artistId) => async (dispatch) => {
-  dispatch(fetchArtistTracksRequest());
+export const fetchArtistTracks = (id) => async (dispatch) => {
+  dispatch({ type: FETCH_ARTIST_TRACKS_REQUEST });
   try {
-    const response = await axios.get(`/api/artists/${artistId}/tracks`);
-    dispatch(fetchArtistTracksSuccess(response.data));
+    const response = await api.get(`/artists/${id}/tracks`);
+    dispatch({ type: FETCH_ARTIST_TRACKS_SUCCESS, payload: response.data });
   } catch (error) {
-    dispatch(fetchArtistTracksFailure(error.message));
+    dispatch({ type: FETCH_ARTIST_TRACKS_FAILURE, payload: error.message });
   }
 };

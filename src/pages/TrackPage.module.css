@@ -1,0 +1,100 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.artist {
+  font-size: 1.2rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.audioPlayer {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.audioPlayer audio {
+  width: 100%;
+}
+
+.description {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  text-align: justify;
+}
+
+.subtitle {
+  font-size: 1.8rem;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.feedbackList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.feedbackItem {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 15px;
+}
+
+.feedbackContent {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.feedbackAuthor {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: right;
+  font-style: italic;
+}
+
+.feedbackFormContainer {
+  margin-top: 30px;
+}
+
+.feedbackFormContainer h3 {
+  font-size: 1.4rem;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.error {
+  color: #d32f2f;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.5rem;
+  }
+}

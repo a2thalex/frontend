@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// Assuming we have these actions, we'll need to create them later if they don't exist
 import { fetchUserProfile, updateUserProfile } from '../redux/actions/userActions';
+import LoadingIndicator from '../components/LoadingIndicator';
+import styles from './ProfilePage.module.css';
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector(state => state.auth);
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [bio, setBio] = useState('');
+  const { user, loading, error } = useSelector(state => state.user);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedUser, setEditedUser] = useState({});
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     dispatch(fetchUserProfile());
@@ -16,57 +17,81 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (user) {
-      setUsername(user.username);
-      setEmail(user.email);
-      setBio(user.bio || '');
+      setEditedUser(user);
     }
   }, [user]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(updateUserProfile({ username, email, bio }));
+  const validateForm = () => {
+    const newErrors = {};
+    if (!editedUser.username) newErrors.username = 'Username is required';
+    if (!editedUser.email) newErrors.email = 'Email is required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!user) return <div>User not found</div>;
+  const handleInputChange = (e) => {
+    setEditedUser({ ...editedUser, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      dispatch(updateUserProfile(editedUser));
+      setIsEditing(false);
+    }
+  };
+
+  if (loading) return <LoadingIndicator />;
+  if (error) return <div className={styles.error}>{error}</div>;
+  if (!user) return <div className={styles.error}>User not found</div>;
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <p>nCoins Balance: {user.nCoins}</p>
-      
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+    <div className={styles.container}>
+      <h1 className={styles.title}>Your Profile</h1>
+      {isEditing ? (
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={editedUser.username || ''}
+              onChange={handleInputChange}
+            />
+            {errors.username && <span className={styles.fieldError}>{errors.username}</span>}
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={editedUser.email || ''}
+              onChange={handleInputChange}
+            />
+            {errors.email && <span className={styles.fieldError}>{errors.email}</span>}
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="bio">Bio:</label>
+            <textarea
+              id="bio"
+              name="bio"
+              value={editedUser.bio || ''}
+              onChange={handleInputChange}
+            />
+          </div>
+          <button type="submit" className={styles.submitButton}>Save Changes</button>
+          <button type="button" onClick={() => setIsEditing(false)} className={styles.cancelButton}>Cancel</button>
+        </form>
+      ) : (
+        <div className={styles.profileInfo}>
+          <p><strong>Username:</strong> {user.username}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+          <p><strong>Bio:</strong> {user.bio || 'No bio provided'}</p>
+          <button onClick={() => setIsEditing(true)} className={styles.editButton}>Edit Profile</button>
         </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="bio">Bio:</label>
-          <textarea
-            id="bio"
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
-        </div>
-        <button type="submit">Update Profile</button>
-      </form>
+      )}
     </div>
   );
 };

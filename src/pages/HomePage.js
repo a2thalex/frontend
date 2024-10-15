@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchFeaturedTracks, fetchFeaturedArtists } from '../redux/actions/dataActions';
+import LoadingIndicator from '../components/LoadingIndicator';
+import styles from './HomePage.module.css';
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -13,47 +15,49 @@ const HomePage = () => {
     dispatch(fetchFeaturedArtists());
   }, [dispatch]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <LoadingIndicator />;
+  if (error) return <div className={styles.error}>Error: {error}</div>;
 
   return (
-    <div>
-      <h1>Welcome to nTunz</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Welcome to nTunz</h1>
       
       {!isAuthenticated && (
-        <div>
+        <div className={styles.cta}>
           <h2>Join nTunz today!</h2>
-          <Link to="/register">
-            <button>Sign Up Now</button>
-          </Link>
+          <Link to="/register" className={styles.ctaButton}>Sign Up Now</Link>
         </div>
       )}
 
-      <h2>Featured Tracks</h2>
-      {Array.isArray(featuredTracks) && featuredTracks.length > 0 ? (
-        <ul>
-          {featuredTracks.map(track => (
-            <li key={track.id}>
-              <Link to={`/tracks/${track.id}`}>{track.title}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No featured tracks available at the moment.</p>
-      )}
+      <section className={styles.featuredSection}>
+        <h2>Featured Tracks</h2>
+        {featuredTracks && featuredTracks.length > 0 ? (
+          <ul className={styles.list}>
+            {featuredTracks.map(track => (
+              <li key={track.id} className={styles.listItem}>
+                <Link to={`/tracks/${track.id}`}>{track.title}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No featured tracks available at the moment.</p>
+        )}
+      </section>
 
-      <h2>Featured Artists</h2>
-      {Array.isArray(featuredArtists) && featuredArtists.length > 0 ? (
-        <ul>
-          {featuredArtists.map(artist => (
-            <li key={artist.id}>
-              <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No featured artists available at the moment.</p>
-      )}
+      <section className={styles.featuredSection}>
+        <h2>Featured Artists</h2>
+        {featuredArtists && featuredArtists.length > 0 ? (
+          <ul className={styles.list}>
+            {featuredArtists.map(artist => (
+              <li key={artist.id} className={styles.listItem}>
+                <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No featured artists available at the moment.</p>
+        )}
+      </section>
     </div>
   );
 };

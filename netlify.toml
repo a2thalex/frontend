@@ -1,8 +1,28 @@
 [build]
+  base = "frontend/"
+  publish = "build/"
   command = "npm run build"
-  publish = "build"
+
+[context.production]
+  command = "npm run build"
+
+[context.production.environment]
+  REACT_APP_API_URL = "https://api.ntunz.com"
+  REACT_APP_ENVIRONMENT = "production"
+
+[context.staging]
+  command = "npm run build:staging"
+
+[context.staging.environment]
+  REACT_APP_API_URL = "https://api-staging.ntunz.com"
+  REACT_APP_ENVIRONMENT = "staging"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[dev]
+  command = "npm start"
+  port = 3000
+  publish = "build"
