@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchFeaturedTracks, fetchFeaturedArtists, fetchGenresWithTracks, fetchFeaturedArtistAillusion } from '../redux/actions/dataActions';
+import { fetchFeaturedTracks, fetchGenresWithTracks, fetchFeaturedArtistAillusion } from '../redux/actions/dataActions';
 import LoadingIndicator from '../components/LoadingIndicator';
 import styles from './HomePage.module.css';
 import heroBackgroundImage from '../assets/hero-background.jpg';
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { featuredTracks, featuredArtists, genresWithTracks, featuredArtistAillusion, loading, error } = useSelector(state => state.data);
+  const { featuredTracks, genresWithTracks, featuredArtistAillusion, loading, error } = useSelector(state => state.data);
   const { isAuthenticated } = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(fetchFeaturedTracks());
-    dispatch(fetchFeaturedArtists());
     dispatch(fetchGenresWithTracks());
     dispatch(fetchFeaturedArtistAillusion());
   }, [dispatch]);
