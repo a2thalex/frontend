@@ -19,7 +19,7 @@ export const FETCH_FEATURED_ARTIST_AILLUSION_FAILURE = 'FETCH_FEATURED_ARTIST_AI
 export const fetchFeaturedTracks = () => async (dispatch) => {
   dispatch({ type: FETCH_FEATURED_TRACKS_REQUEST });
   try {
-    const response = await api.get('/featured-tracks');
+    const response = await api.get('/api/featured/tracks');
     dispatch({ type: FETCH_FEATURED_TRACKS_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_FEATURED_TRACKS_FAILURE, payload: error.message });
@@ -29,7 +29,7 @@ export const fetchFeaturedTracks = () => async (dispatch) => {
 export const fetchFeaturedArtists = () => async (dispatch) => {
   dispatch({ type: FETCH_FEATURED_ARTISTS_REQUEST });
   try {
-    const response = await api.get('/featured-artists');
+    const response = await api.get('/api/featured/artists');
     dispatch({ type: FETCH_FEATURED_ARTISTS_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_FEATURED_ARTISTS_FAILURE, payload: error.message });
@@ -39,7 +39,7 @@ export const fetchFeaturedArtists = () => async (dispatch) => {
 export const fetchGenresWithTracks = () => async (dispatch) => {
   dispatch({ type: FETCH_GENRES_WITH_TRACKS_REQUEST });
   try {
-    const response = await api.get('/genres-with-tracks');
+    const response = await api.get('/api/featured/genres-with-tracks');
     dispatch({ type: FETCH_GENRES_WITH_TRACKS_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_GENRES_WITH_TRACKS_FAILURE, payload: error.message });
@@ -49,7 +49,7 @@ export const fetchGenresWithTracks = () => async (dispatch) => {
 export const fetchFeaturedArtistAillusion = () => async (dispatch) => {
   dispatch({ type: FETCH_FEATURED_ARTIST_AILLUSION_REQUEST });
   try {
-    const response = await api.get('/featured-artist/aillusion');
+    const response = await api.get('/api/featured/artist/aillusion');
     dispatch({ type: FETCH_FEATURED_ARTIST_AILLUSION_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_FEATURED_ARTIST_AILLUSION_FAILURE, payload: error.message });

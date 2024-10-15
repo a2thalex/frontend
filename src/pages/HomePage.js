@@ -18,7 +18,6 @@ const HomePage = () => {
   }, [dispatch]);
 
   if (loading) return <LoadingIndicator />;
-  if (error) return <div className={styles.error}>Error: {error}</div>;
 
   return (
     <div className={styles.container}>
@@ -31,6 +30,8 @@ const HomePage = () => {
           )}
         </div>
       </section>
+
+      {error && <div className={styles.error}>Error: {error}</div>}
 
       {featuredArtistAillusion && (
         <section className={styles.featuredArtistSection}>
@@ -82,23 +83,27 @@ const HomePage = () => {
 
       <section className={styles.genresSection}>
         <h2 className={styles.sectionTitle}>Explore Genres</h2>
-        {genresWithTracks.map(genre => (
-          <div key={genre.genre} className={styles.genreSection}>
-            <h3 className={styles.genreTitle}>{genre.genre}</h3>
-            <div className={styles.trackList}>
-              {genre.tracks.map(track => (
-                <div key={track._id} className={styles.trackItem}>
-                  <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.trackImage} />
-                  <div className={styles.trackInfo}>
-                    <h4>{track.title}</h4>
-                    <p>{track.artist}</p>
-                    <Link to={`/tracks/${track._id}`} className={styles.listenButton}>Listen Now</Link>
+        {genresWithTracks && genresWithTracks.length > 0 ? (
+          genresWithTracks.map(genre => (
+            <div key={genre.genre} className={styles.genreSection}>
+              <h3 className={styles.genreTitle}>{genre.genre}</h3>
+              <div className={styles.trackList}>
+                {genre.tracks.map(track => (
+                  <div key={track._id} className={styles.trackItem}>
+                    <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.trackImage} />
+                    <div className={styles.trackInfo}>
+                      <h4>{track.title}</h4>
+                      <p>{track.artist}</p>
+                      <Link to={`/tracks/${track._id}`} className={styles.listenButton}>Listen Now</Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No genres available at the moment.</p>
+        )}
       </section>
 
       <section className={styles.joinSection}>
