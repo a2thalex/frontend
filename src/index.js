@@ -12,8 +12,12 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
+console.log('Environment:', process.env.NODE_ENV);
+console.log('PUBLIC_URL:', process.env.PUBLIC_URL);
+
 const sentryDsn = process.env.REACT_APP_SENTRY_DSN;
 if (sentryDsn && sentryDsn !== 'YOUR_ACTUAL_SENTRY_DSN_HERE') {
+  console.log('Initializing Sentry');
   Sentry.init({
     dsn: sentryDsn,
     integrations: [new BrowserTracing()],
@@ -38,9 +42,17 @@ root.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
+console.log('Registering service worker');
+serviceWorkerRegistration.register({
+  onSuccess: (registration) => {
+    console.log('Service worker registration successful', registration);
+  },
+  onUpdate: (registration) => {
+    console.log('Service worker update available', registration);
+  },
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals(console.log);
