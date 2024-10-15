@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../../utils/api';
 
 // Action Types
 export const FETCH_FEATURED_TRACKS_REQUEST = 'FETCH_FEATURED_TRACKS_REQUEST';
@@ -21,7 +21,7 @@ export const fetchFeaturedArtistsFailure = (error) => ({ type: FETCH_FEATURED_AR
 export const fetchFeaturedTracks = () => async (dispatch) => {
   dispatch(fetchFeaturedTracksRequest());
   try {
-    const response = await axios.get('/api/featured-tracks');
+    const response = await api.get('/featured-tracks');
     dispatch(fetchFeaturedTracksSuccess(response.data));
   } catch (error) {
     dispatch(fetchFeaturedTracksFailure(error.message));
@@ -32,7 +32,7 @@ export const fetchFeaturedTracks = () => async (dispatch) => {
 export const fetchFeaturedArtists = () => async (dispatch) => {
   dispatch(fetchFeaturedArtistsRequest());
   try {
-    const response = await axios.get('/api/featured-artists');
+    const response = await api.get('/featured-artists');
     dispatch(fetchFeaturedArtistsSuccess(response.data));
   } catch (error) {
     dispatch(fetchFeaturedArtistsFailure(error.message));

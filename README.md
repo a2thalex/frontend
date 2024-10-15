@@ -1,100 +1,38 @@
 # nTunz Frontend
 
-This is the frontend application for nTunz, a platform for discovering and sharing music.
+This is the frontend application for the nTunz platform.
 
-## Getting Started
+## Local Development
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Prerequisites
-
-- Node.js (v14 or later)
-- npm (v6 or later)
-
-### Installing
-
-1. Clone the repository:
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Create a `.env` file in the root directory and add the following variables:
    ```
-   git clone https://github.com/your-username/ntunz-frontend.git
-   cd ntunz-frontend
+   REACT_APP_API_URL=http://localhost:5000
+   REACT_APP_SENTRY_DSN=YOUR_ACTUAL_SENTRY_DSN_HERE
    ```
+4. Start the development server: `npm start`
 
-2. Install dependencies:
-   ```
-   npm install
-   ```
+## Deployment
 
-3. Start the development server:
-   ```
-   npm start
-   ```
+The frontend is automatically deployed to Netlify when changes are pushed to the main branch of the Git repository. No manual steps are required for deployment.
 
-The application should now be running on [http://localhost:3000](http://localhost:3000).
+## Environment Variables
+
+Make sure the following environment variables are set in your Netlify project settings:
+
+- `REACT_APP_API_URL`: Set this to your Heroku backend URL (e.g., https://your-app-name.herokuapp.com)
+- `REACT_APP_SENTRY_DSN`: Set this to your Sentry DSN if you're using Sentry for error tracking
 
 ## Available Scripts
-
-In the project directory, you can run:
 
 - `npm start`: Runs the app in development mode
 - `npm test`: Launches the test runner
 - `npm run build`: Builds the app for production
-- `npm run build:staging`: Builds the app for staging environment
-- `npm run eject`: Ejects from Create React App
-- `npm run lint`: Runs ESLint to check for code style issues
-- `npm run format`: Runs Prettier to format code
-- `npm run cypress:open`: Opens the Cypress Test Runner
-- `npm run cypress:run`: Runs Cypress tests in headless mode
-- `npm run test:e2e`: Runs end-to-end tests
-- `npm run optimize-images`: Optimizes images in the public/images directory
 
-## Environments
+## Notes
 
-- Development: `npm start`
-- Staging: `npm run start:staging`
-- Production: The production build is automatically deployed via Netlify
-
-## Feature Flags
-
-Feature flags are managed in `src/config/featureFlags.json`. To use a feature flag in a component:
-
-```javascript
-import useFeatureFlag from '../hooks/useFeatureFlag';
-
-function MyComponent() {
-  const isFeatureEnabled = useFeatureFlag('myFeatureFlag');
-  // ...
-}
-```
-
-## Internationalization
-
-The app supports multiple languages. To add a new language:
-
-1. Add translations to `src/i18n/messages.js`
-2. Update the language selector in `src/App.js`
-
-## Testing
-
-- Run unit tests: `npm test`
-- Run end-to-end tests: `npm run test:e2e`
-
-## Deployment
-
-The app is automatically deployed to Netlify when changes are pushed to the main branch. The `netlify.toml` file contains the configuration for both staging and production environments.
-
-## Built With
-
-- [React](https://reactjs.org/) - The web framework used
-- [Redux](https://redux.js.org/) - State Management
-- [React Router](https://reactrouter.com/) - Routing
-- [Axios](https://github.com/axios/axios) - HTTP client
-- [React-Intl](https://formatjs.io/docs/react-intl/) - Internationalization
-- [Cypress](https://www.cypress.io/) - End-to-end testing
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+- The application uses Redux for state management and React Router for routing.
+- API calls are made using Axios, with the base URL set from the REACT_APP_API_URL environment variable.
+- Make sure the backend CORS settings allow requests from your Netlify domain.
+- To deploy changes, simply push your commits to the main branch of the Git repository.

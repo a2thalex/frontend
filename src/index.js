@@ -1,8 +1,9 @@
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import store from './redux/store';
@@ -11,23 +12,27 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-if (process.env.REACT_APP_SENTRY_DSN) {
+const sentryDsn = process.env.REACT_APP_SENTRY_DSN;
+if (sentryDsn && sentryDsn !== 'YOUR_ACTUAL_SENTRY_DSN_HERE') {
   Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
+    dsn: sentryDsn,
     integrations: [new BrowserTracing()],
     tracesSampleRate: 1.0,
   });
 } else {
-  console.warn('Sentry DSN not found. Error tracking is disabled.');
+  console.warn('Valid Sentry DSN not found. Error tracking is disabled.');
 }
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root'));
+
+root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change

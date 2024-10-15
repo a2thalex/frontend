@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
 import Header from './components/Header';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -40,40 +40,38 @@ function App() {
 
   return (
     <IntlProvider messages={messages[locale]} locale={locale}>
-      <Router>
-        <ErrorBoundary>
-          <div className="App">
-            <a href="#main-content" className="skip-link">Skip to main content</a>
-            <Header />
-            <select 
-              value={locale} 
-              onChange={handleLanguageChange} 
-              aria-label="Select language"
-              className="language-selector"
-            >
-              <option value="en">English</option>
-              <option value="es">Español</option>
-            </select>
-            {enableDarkMode && (
-              <button onClick={toggleDarkMode} className="dark-mode-toggle">
-                {darkMode ? 'Light Mode' : 'Dark Mode'}
-              </button>
-            )}
-            <main id="main-content">
-              <Suspense fallback={<LoadingIndicator />}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/artists/:id" element={<ArtistPage />} />
-                  <Route path="/tracks/:id" element={<TrackPage />} />
-                </Routes>
-              </Suspense>
-            </main>
-          </div>
-        </ErrorBoundary>
-      </Router>
+      <ErrorBoundary>
+        <div className="App">
+          <a href="#main-content" className="skip-link">Skip to main content</a>
+          <Header />
+          <select 
+            value={locale} 
+            onChange={handleLanguageChange} 
+            aria-label="Select language"
+            className="language-selector"
+          >
+            <option value="en">English</option>
+            <option value="es">Español</option>
+          </select>
+          {enableDarkMode && (
+            <button onClick={toggleDarkMode} className="dark-mode-toggle">
+              {darkMode ? 'Light Mode' : 'Dark Mode'}
+            </button>
+          )}
+          <main id="main-content">
+            <Suspense fallback={<LoadingIndicator />}>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/artists/:id" element={<ArtistPage />} />
+                <Route path="/tracks/:id" element={<TrackPage />} />
+              </Routes>
+            </Suspense>
+          </main>
+        </div>
+      </ErrorBoundary>
     </IntlProvider>
   );
 }

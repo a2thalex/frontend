@@ -7,13 +7,15 @@ import artistReducer from './reducers/artistReducer';
 import trackReducer from './reducers/trackReducer';
 import feedbackReducer from './reducers/feedbackReducer';
 import userReducer from './reducers/userReducer';
+import dataReducer from './reducers/dataReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   artists: artistReducer,
   tracks: trackReducer,
   feedback: feedbackReducer,
-  user: userReducer
+  user: userReducer,
+  data: dataReducer
 });
 
 const store = createStore(
