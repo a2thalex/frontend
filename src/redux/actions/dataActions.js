@@ -1,9 +1,6 @@
 import axios from 'axios';
 
 // Action Types
-export const FETCH_DATA_REQUEST = 'FETCH_DATA_REQUEST';
-export const FETCH_DATA_SUCCESS = 'FETCH_DATA_SUCCESS';
-export const FETCH_DATA_FAILURE = 'FETCH_DATA_FAILURE';
 export const FETCH_FEATURED_TRACKS_REQUEST = 'FETCH_FEATURED_TRACKS_REQUEST';
 export const FETCH_FEATURED_TRACKS_SUCCESS = 'FETCH_FEATURED_TRACKS_SUCCESS';
 export const FETCH_FEATURED_TRACKS_FAILURE = 'FETCH_FEATURED_TRACKS_FAILURE';
@@ -12,10 +9,6 @@ export const FETCH_FEATURED_ARTISTS_SUCCESS = 'FETCH_FEATURED_ARTISTS_SUCCESS';
 export const FETCH_FEATURED_ARTISTS_FAILURE = 'FETCH_FEATURED_ARTISTS_FAILURE';
 
 // Action Creators
-export const fetchDataRequest = () => ({ type: FETCH_DATA_REQUEST });
-export const fetchDataSuccess = (data) => ({ type: FETCH_DATA_SUCCESS, payload: data });
-export const fetchDataFailure = (error) => ({ type: FETCH_DATA_FAILURE, payload: error });
-
 export const fetchFeaturedTracksRequest = () => ({ type: FETCH_FEATURED_TRACKS_REQUEST });
 export const fetchFeaturedTracksSuccess = (tracks) => ({ type: FETCH_FEATURED_TRACKS_SUCCESS, payload: tracks });
 export const fetchFeaturedTracksFailure = (error) => ({ type: FETCH_FEATURED_TRACKS_FAILURE, payload: error });
@@ -23,17 +16,6 @@ export const fetchFeaturedTracksFailure = (error) => ({ type: FETCH_FEATURED_TRA
 export const fetchFeaturedArtistsRequest = () => ({ type: FETCH_FEATURED_ARTISTS_REQUEST });
 export const fetchFeaturedArtistsSuccess = (artists) => ({ type: FETCH_FEATURED_ARTISTS_SUCCESS, payload: artists });
 export const fetchFeaturedArtistsFailure = (error) => ({ type: FETCH_FEATURED_ARTISTS_FAILURE, payload: error });
-
-// Thunk action to fetch data
-export const fetchData = () => async (dispatch) => {
-  dispatch(fetchDataRequest());
-  try {
-    const response = await axios.get('/api/data');
-    dispatch(fetchDataSuccess(response.data));
-  } catch (error) {
-    dispatch(fetchDataFailure(error.message));
-  }
-};
 
 // Thunk action to fetch featured tracks
 export const fetchFeaturedTracks = () => async (dispatch) => {
