@@ -7,7 +7,7 @@ import { useAnalytics } from '../hooks/useAnalytics';
 import styles from './Header.module.css';
 
 const Header = () => {
-  const { isAuthenticated, user } = useSelector(state => state.auth);
+  const { isAuthenticated } = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { trackEvent } = useAnalytics();
