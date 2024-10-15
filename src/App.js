@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserData } from './redux/actions/authActions';
 import Header from './components/Header';
@@ -23,14 +23,14 @@ function App() {
   return (
     <Router>
       <Header />
-      <Switch>
-        <Route path="/" exact component={HomePage} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
-        <Route path="/artists/:id" component={ArtistPage} />
-        <Route path="/tracks/:id" component={TrackPage} />
-        <Route path="/profile" component={ProfilePage} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/artists/:id" element={<ArtistPage />} />
+        <Route path="/tracks/:id" element={<TrackPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
     </Router>
   );
 }

@@ -6,7 +6,7 @@ const initialState = {
   error: null,
 };
 
-export default function (state = initialState, action) {
+function authReducer(state = initialState, action) {
   switch (action.type) {
     case 'LOGIN_SUCCESS':
     case 'REGISTER_SUCCESS':
@@ -43,3 +43,5 @@ export default function (state = initialState, action) {
       return state;
   }
 }
+
+export default authReducer;

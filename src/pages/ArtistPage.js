@@ -1,21 +1,22 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// Assuming we have these actions, we'll need to create them later if they don't exist
 import { fetchArtist, fetchArtistTracks } from '../redux/actions/artistActions';
 
 const ArtistPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { artist, tracks, loading, error } = useSelector(state => state.artist);
+  const { artist, artistLoading, artistError } = useSelector(state => state.artist);
+  const { tracks, tracksLoading, tracksError } = useSelector(state => state.artistTracks);
 
   useEffect(() => {
     dispatch(fetchArtist(id));
     dispatch(fetchArtistTracks(id));
   }, [dispatch, id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (artistLoading || tracksLoading) return <div>Loading...</div>;
+  if (artistError) return <div>Error loading artist: {artistError}</div>;
+  if (tracksError) return <div>Error loading tracks: {tracksError}</div>;
   if (!artist) return <div>Artist not found</div>;
 
   return (
