@@ -25,10 +25,12 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
-      // Handle unauthorized access (e.g., redirect to login page)
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+    if (error.response && error.response.status === 401) {
+      // Instead of automatically logging out, we'll dispatch an action to update the auth state
+      // This will be handled in the auth reducer
+      if (window.store) {
+        window.store.dispatch({ type: 'AUTH_ERROR' });
+      }
     }
     return Promise.reject(error);
   }

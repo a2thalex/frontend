@@ -9,66 +9,83 @@
   background-position: center;
   color: var(--on-background);
   text-align: center;
-  padding: 100px 0;
-  margin-bottom: 40px;
+  padding: 150px 0;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .heroContent {
-  max-width: 800px;
-  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .heroTitle {
-  font-size: 3rem;
+  font-size: 4rem;
   margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .heroSubtitle {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-bottom: 30px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .ctaButton {
   display: inline-block;
   background-color: var(--primary-color);
   color: var(--on-background);
-  padding: 12px 24px;
-  border-radius: 4px;
+  padding: 15px 30px;
+  border-radius: 30px;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .ctaButton:hover {
   background-color: var(--accent-color);
+  transform: scale(1.05);
 }
 
 .featuredSection {
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
 .sectionTitle {
-  font-size: 2rem;
-  margin-bottom: 20px;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
   color: var(--on-background);
+  text-align: center;
 }
 
 .cardGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+  gap: 30px;
 }
 
 .card {
   background-color: var(--surface-color);
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .cardImage {
@@ -78,20 +95,20 @@
 }
 
 .cardContent {
-  padding: 15px;
+  padding: 20px;
 }
 
 .cardTitle {
   font-size: 1.2rem;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   color: var(--on-surface);
 }
 
-.cardArtist, .cardGenre {
+.cardArtist, .cardGenre, .cardTracks {
   font-size: 0.9rem;
   color: var(--on-surface);
   opacity: 0.8;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .cardLink {
@@ -99,7 +116,7 @@
   background-color: var(--secondary-color);
   color: var(--on-background);
   padding: 8px 16px;
-  border-radius: 4px;
+  border-radius: 20px;
   text-decoration: none;
   font-size: 0.9rem;
   transition: background-color 0.3s ease;
@@ -110,13 +127,13 @@
 }
 
 .trendingSection {
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
 .genreGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
+  gap: 20px;
 }
 
 .genreCard {
@@ -124,28 +141,29 @@
   color: var(--on-surface);
   text-align: center;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .genreCard:hover {
   background-color: var(--primary-color);
   color: var(--on-background);
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
   .heroTitle {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
 
   .heroSubtitle {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .sectionTitle {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   .cardGrid {

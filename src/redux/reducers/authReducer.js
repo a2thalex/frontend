@@ -49,6 +49,13 @@ const authReducer = (state = initialState, action) => {
         user: null,
         error: null
       };
+    case 'AUTH_ERROR':
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+        error: 'Authentication error. Please log in again.'
+      };
     default:
       return state;
   }

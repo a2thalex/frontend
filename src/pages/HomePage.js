@@ -20,6 +20,11 @@ const HomePage = () => {
   if (error) return <div className={styles.error}>Error: {error}</div>;
 
   const trendingGenres = ['Hip Hop', 'Electronic', 'Rock', 'Pop', 'R&B'];
+  const popularPlaylists = [
+    { id: 1, name: 'Summer Hits 2023', tracks: 50, image: '/playlist-summer.jpg' },
+    { id: 2, name: 'Workout Motivation', tracks: 40, image: '/playlist-workout.jpg' },
+    { id: 3, name: 'Chill Vibes', tracks: 30, image: '/playlist-chill.jpg' },
+  ];
 
   return (
     <div className={styles.container}>
@@ -80,6 +85,22 @@ const HomePage = () => {
             <Link key={genre} to={`/genres/${genre.toLowerCase()}`} className={styles.genreCard}>
               {genre}
             </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className={styles.featuredSection}>
+        <h2 className={styles.sectionTitle}>Popular Playlists</h2>
+        <div className={styles.cardGrid}>
+          {popularPlaylists.map(playlist => (
+            <div key={playlist.id} className={styles.card}>
+              <img src={playlist.image} alt={playlist.name} className={styles.cardImage} />
+              <div className={styles.cardContent}>
+                <h3 className={styles.cardTitle}>{playlist.name}</h3>
+                <p className={styles.cardTracks}>{playlist.tracks} tracks</p>
+                <Link to={`/playlists/${playlist.id}`} className={styles.cardLink}>View Playlist</Link>
+              </div>
+            </div>
           ))}
         </div>
       </section>
