@@ -7,14 +7,14 @@
   command = "npm run build"
 
 [context.production.environment]
-  REACT_APP_API_URL = "https://api.ntunz.com"
+  REACT_APP_API_URL = "https://ntunz-backend-2b1ea1133876.herokuapp.com"
   REACT_APP_ENVIRONMENT = "production"
 
 [context.staging]
   command = "npm run build:staging"
 
 [context.staging.environment]
-  REACT_APP_API_URL = "https://api-staging.ntunz.com"
+  REACT_APP_API_URL = "https://ntunz-backend-2b1ea1133876.herokuapp.com"
   REACT_APP_ENVIRONMENT = "staging"
 
 [[redirects]]
