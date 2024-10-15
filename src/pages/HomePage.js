@@ -18,45 +18,69 @@ const HomePage = () => {
   if (loading) return <LoadingIndicator />;
   if (error) return <div className={styles.error}>Error: {error}</div>;
 
+  const trendingGenres = ['Hip Hop', 'Electronic', 'Rock', 'Pop', 'R&B'];
+
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Welcome to nTunz</h1>
-      
-      {!isAuthenticated && (
-        <div className={styles.cta}>
-          <h2>Join nTunz today!</h2>
-          <Link to="/register" className={styles.ctaButton}>Sign Up Now</Link>
+      <section className={styles.hero}>
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>Discover Your Sound</h1>
+          <p className={styles.heroSubtitle}>Connect with artists, share your music, and explore new tracks</p>
+          {!isAuthenticated && (
+            <Link to="/register" className={styles.ctaButton}>Join nTunz Today</Link>
+          )}
         </div>
-      )}
-
-      <section className={styles.featuredSection}>
-        <h2>Featured Tracks</h2>
-        {featuredTracks && featuredTracks.length > 0 ? (
-          <ul className={styles.list}>
-            {featuredTracks.map(track => (
-              <li key={track.id} className={styles.listItem}>
-                <Link to={`/tracks/${track.id}`}>{track.title}</Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No featured tracks available at the moment.</p>
-        )}
       </section>
 
       <section className={styles.featuredSection}>
-        <h2>Featured Artists</h2>
-        {featuredArtists && featuredArtists.length > 0 ? (
-          <ul className={styles.list}>
-            {featuredArtists.map(artist => (
-              <li key={artist.id} className={styles.listItem}>
-                <Link to={`/artists/${artist.id}`}>{artist.name}</Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No featured artists available at the moment.</p>
-        )}
+        <h2 className={styles.sectionTitle}>Featured Tracks</h2>
+        <div className={styles.cardGrid}>
+          {featuredTracks && featuredTracks.length > 0 ? (
+            featuredTracks.map(track => (
+              <div key={track.id} className={styles.card}>
+                <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.cardImage} />
+                <div className={styles.cardContent}>
+                  <h3 className={styles.cardTitle}>{track.title}</h3>
+                  <p className={styles.cardArtist}>{track.artist}</p>
+                  <Link to={`/tracks/${track.id}`} className={styles.cardLink}>Listen Now</Link>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No featured tracks available at the moment.</p>
+          )}
+        </div>
+      </section>
+
+      <section className={styles.featuredSection}>
+        <h2 className={styles.sectionTitle}>Featured Artists</h2>
+        <div className={styles.cardGrid}>
+          {featuredArtists && featuredArtists.length > 0 ? (
+            featuredArtists.map(artist => (
+              <div key={artist.id} className={styles.card}>
+                <img src={artist.profilePicture || '/default-artist.jpg'} alt={artist.name} className={styles.cardImage} />
+                <div className={styles.cardContent}>
+                  <h3 className={styles.cardTitle}>{artist.name}</h3>
+                  <p className={styles.cardGenre}>{artist.genre}</p>
+                  <Link to={`/artists/${artist.id}`} className={styles.cardLink}>View Profile</Link>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No featured artists available at the moment.</p>
+          )}
+        </div>
+      </section>
+
+      <section className={styles.trendingSection}>
+        <h2 className={styles.sectionTitle}>Trending Genres</h2>
+        <div className={styles.genreGrid}>
+          {trendingGenres.map(genre => (
+            <Link key={genre} to={`/genres/${genre.toLowerCase()}`} className={styles.genreCard}>
+              {genre}
+            </Link>
+          ))}
+        </div>
       </section>
     </div>
   );

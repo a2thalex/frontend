@@ -1,8 +1,20 @@
+/* Custom properties for theming */
+:root {
+  --primary-color: #6200EA;
+  --secondary-color: #03DAC6;
+  --background-color: #121212;
+  --surface-color: #1E1E1E;
+  --on-background: #FFFFFF;
+  --on-surface: #E0E0E0;
+  --accent-color: #FF4081;
+}
+
 /* Base styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   line-height: 1.6;
-  color: #333;
+  color: var(--on-background);
+  background-color: var(--background-color);
   margin: 0;
   padding: 0;
 }
@@ -74,4 +86,45 @@ html {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Modern button styles */
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: var(--on-background);
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--accent-color);
+}
+
+/* Card component */
+.card {
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--on-background);
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-color);
 }

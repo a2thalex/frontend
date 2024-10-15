@@ -7,6 +7,7 @@ import LoadingIndicator from './components/LoadingIndicator';
 import { useAnalytics } from './hooks/useAnalytics';
 import useFeatureFlag from './hooks/useFeatureFlag';
 import { messages } from './i18n/messages';
+import './styles/global.css';
 import './App.css';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -30,8 +31,8 @@ function App() {
     }
   }, [darkMode, enableDarkMode]);
 
-  const handleLanguageChange = (e) => {
-    setLocale(e.target.value);
+  const handleLanguageChange = (newLocale) => {
+    setLocale(newLocale);
   };
 
   const toggleDarkMode = () => {
@@ -43,21 +44,13 @@ function App() {
       <ErrorBoundary>
         <div className="App">
           <a href="#main-content" className="skip-link">Skip to main content</a>
-          <Header />
-          <select 
-            value={locale} 
-            onChange={handleLanguageChange} 
-            aria-label="Select language"
-            className="language-selector"
-          >
-            <option value="en">English</option>
-            <option value="es">Español</option>
-          </select>
-          {enableDarkMode && (
-            <button onClick={toggleDarkMode} className="dark-mode-toggle">
-              {darkMode ? 'Light Mode' : 'Dark Mode'}
-            </button>
-          )}
+          <Header 
+            locale={locale}
+            onLanguageChange={handleLanguageChange}
+            darkMode={darkMode}
+            onDarkModeToggle={toggleDarkMode}
+            enableDarkMode={enableDarkMode}
+          />
           <main id="main-content">
             <Suspense fallback={<LoadingIndicator />}>
               <Routes>
