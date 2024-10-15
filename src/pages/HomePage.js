@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { fetchFeaturedTracks, fetchFeaturedArtists } from '../redux/actions/dataActions';
 import LoadingIndicator from '../components/LoadingIndicator';
 import styles from './HomePage.module.css';
+import heroBackgroundImage from '../assets/hero-background.jpg';
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const HomePage = () => {
 
   return (
     <div className={styles.container}>
-      <section className={styles.hero}>
+      <section className={styles.hero} style={{ backgroundImage: `url(${heroBackgroundImage})` }}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>Discover Your Sound</h1>
           <p className={styles.heroSubtitle}>Connect with artists, share your music, and explore new tracks</p>
