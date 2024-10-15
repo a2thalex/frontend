@@ -264,6 +264,27 @@
   transform: scale(1.05);
 }
 
+.audioPlayer {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.downloadButton {
+  display: inline-block;
+  background-color: var(--secondary-color);
+  color: var(--on-background);
+  padding: 5px 10px;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.downloadButton:hover {
+  background-color: var(--accent-color);
+}
+
 @media (max-width: 768px) {
   .heroTitle {
     font-size: 3rem;

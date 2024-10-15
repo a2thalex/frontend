@@ -45,14 +45,17 @@ const HomePage = () => {
             </div>
           </div>
           <div className={styles.featuredArtistTracks}>
-            <h3>Tracks by Aillusion</h3>
+            <h3>Featured Track: IWY</h3>
             <div className={styles.trackList}>
               {featuredArtistAillusion.tracks.map(track => (
-                <div key={track._id} className={styles.trackItem}>
+                <div key={track._id || track.title} className={styles.trackItem}>
                   <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.trackImage} />
                   <div className={styles.trackInfo}>
                     <h4>{track.title}</h4>
-                    <Link to={`/tracks/${track._id}`} className={styles.listenButton}>Listen Now</Link>
+                    <audio controls src={track.audioUrl} className={styles.audioPlayer}>
+                      Your browser does not support the audio element.
+                    </audio>
+                    <a href={track.audioUrl} download className={styles.downloadButton}>Download</a>
                   </div>
                 </div>
               ))}
@@ -66,12 +69,18 @@ const HomePage = () => {
         <div className={styles.cardGrid}>
           {featuredTracks && featuredTracks.length > 0 ? (
             featuredTracks.map(track => (
-              <div key={track._id} className={styles.card}>
+              <div key={track._id || track.title} className={styles.card}>
                 <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.cardImage} />
                 <div className={styles.cardContent}>
                   <h3 className={styles.cardTitle}>{track.title}</h3>
                   <p className={styles.cardArtist}>{track.artist}</p>
-                  <Link to={`/tracks/${track._id}`} className={styles.cardLink}>Listen Now</Link>
+                  {track.audioUrl ? (
+                    <audio controls src={track.audioUrl} className={styles.audioPlayer}>
+                      Your browser does not support the audio element.
+                    </audio>
+                  ) : (
+                    <Link to={`/tracks/${track._id}`} className={styles.cardLink}>Listen Now</Link>
+                  )}
                 </div>
               </div>
             ))
@@ -89,12 +98,18 @@ const HomePage = () => {
               <h3 className={styles.genreTitle}>{genre.genre}</h3>
               <div className={styles.trackList}>
                 {genre.tracks.map(track => (
-                  <div key={track._id} className={styles.trackItem}>
+                  <div key={track._id || track.title} className={styles.trackItem}>
                     <img src={track.coverArt || '/default-cover.jpg'} alt={track.title} className={styles.trackImage} />
                     <div className={styles.trackInfo}>
                       <h4>{track.title}</h4>
                       <p>{track.artist}</p>
-                      <Link to={`/tracks/${track._id}`} className={styles.listenButton}>Listen Now</Link>
+                      {track.audioUrl ? (
+                        <audio controls src={track.audioUrl} className={styles.audioPlayer}>
+                          Your browser does not support the audio element.
+                        </audio>
+                      ) : (
+                        <Link to={`/tracks/${track._id}`} className={styles.listenButton}>Listen Now</Link>
+                      )}
                     </div>
                   </div>
                 ))}
