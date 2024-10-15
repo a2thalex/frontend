@@ -28,9 +28,15 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      const result = await dispatch(register(username, email, password));
-      if (result.type === 'REGISTER_SUCCESS') {
-        navigate('/');
+      try {
+        const result = await dispatch(register(username, email, password));
+        if (result.type === 'REGISTER_SUCCESS') {
+          navigate('/');
+        } else if (result.error) {
+          setErrors({ ...errors, general: result.error });
+        }
+      } catch (error) {
+        setErrors({ ...errors, general: 'An unexpected error occurred' });
       }
     }
   };
@@ -41,6 +47,7 @@ const RegisterPage = () => {
     <div className={styles.container}>
       <h1 className={styles.title}>Register</h1>
       {error && <p className={styles.error}>{error}</p>}
+      {errors.general && <p className={styles.error}>{errors.general}</p>}
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <label htmlFor="username">Username:</label>

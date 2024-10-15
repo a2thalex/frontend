@@ -15,7 +15,7 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({ type: LOGIN_SUCCESS, payload: response.data });
     localStorage.setItem('token', response.data.token);
   } catch (error) {
-    dispatch({ type: LOGIN_FAILURE, payload: error.response.data.message });
+    dispatch({ type: LOGIN_FAILURE, payload: error.response?.data?.message || 'An error occurred' });
   }
 };
 
@@ -29,8 +29,13 @@ export const register = (username, email, password) => async (dispatch) => {
   try {
     const response = await api.post('/auth/register', { username, email, password });
     dispatch({ type: REGISTER_SUCCESS, payload: response.data });
-    localStorage.setItem('token', response.data.token);
+    if (response.data.token) {
+      localStorage.setItem('token', response.data.token);
+    }
+    return { type: REGISTER_SUCCESS };
   } catch (error) {
-    dispatch({ type: REGISTER_FAILURE, payload: error.response.data.message });
+    const errorMessage = error.response?.data?.message || 'Registration failed';
+    dispatch({ type: REGISTER_FAILURE, payload: errorMessage });
+    return { type: REGISTER_FAILURE, error: errorMessage };
   }
 };
