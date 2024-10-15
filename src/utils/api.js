@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_API_URL || 'https://ntunz-backend-2b1ea1133876.herokuapp.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
