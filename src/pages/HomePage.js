@@ -30,7 +30,7 @@ const HomePage = () => {
       )}
 
       <h2>Featured Tracks</h2>
-      {featuredTracks && featuredTracks.length > 0 ? (
+      {Array.isArray(featuredTracks) && featuredTracks.length > 0 ? (
         <ul>
           {featuredTracks.map(track => (
             <li key={track.id}>
@@ -43,7 +43,7 @@ const HomePage = () => {
       )}
 
       <h2>Featured Artists</h2>
-      {featuredArtists && featuredArtists.length > 0 ? (
+      {Array.isArray(featuredArtists) && featuredArtists.length > 0 ? (
         <ul>
           {featuredArtists.map(artist => (
             <li key={artist.id}>
