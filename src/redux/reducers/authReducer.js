@@ -9,7 +9,7 @@ import {
 } from '../actions/authActions';
 
 const initialState = {
-  user: null,
+  token: null,
   loading: false,
   error: null,
   isAuthenticated: false
@@ -30,7 +30,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: action.payload.user,
+        token: action.payload.token,
         error: null
       };
     case LOGIN_FAILURE:
@@ -39,21 +39,21 @@ const authReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isAuthenticated: false,
-        user: null,
+        token: null,
         error: action.payload
       };
     case LOGOUT:
       return {
         ...state,
         isAuthenticated: false,
-        user: null,
+        token: null,
         error: null
       };
     case 'AUTH_ERROR':
       return {
         ...state,
         isAuthenticated: false,
-        user: null,
+        token: null,
         error: 'Authentication error. Please log in again.'
       };
     default:

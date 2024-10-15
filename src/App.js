@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
+import { useDispatch } from 'react-redux';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -8,6 +9,7 @@ import LoadingIndicator from './components/LoadingIndicator';
 import { useAnalytics } from './hooks/useAnalytics';
 import useFeatureFlag from './hooks/useFeatureFlag';
 import { messages } from './i18n/messages';
+import { checkAuth } from './redux/actions/authActions';
 import './styles/global.css';
 import './App.css';
 
@@ -22,7 +24,12 @@ function App() {
   const [locale, setLocale] = useState('en');
   const [darkMode, setDarkMode] = useState(false);
   const enableDarkMode = useFeatureFlag('enableDarkMode');
+  const dispatch = useDispatch();
   useAnalytics();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
 
   useEffect(() => {
     if (enableDarkMode && darkMode) {
