@@ -28,6 +28,7 @@ api.interceptors.request.use(
       config.headers['Content-Type'] = 'multipart/form-data';
     }
     console.log('Request headers:', config.headers);
+    console.log('Authorization header:', config.headers['Authorization']);
     return config;
   },
   (error) => {
