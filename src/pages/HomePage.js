@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTracks } from '../redux/actions/trackActions';
+import { setCurrentTrack } from '../redux/actions/playerActions';
 import LoadingIndicator from '../components/LoadingIndicator';
 import AudioPlayer from '../components/AudioPlayer';
 import styles from './HomePage.module.css';
@@ -12,6 +13,10 @@ const HomePage = () => {
   useEffect(() => {
     dispatch(fetchTracks());
   }, [dispatch]);
+
+  const handlePlayTrack = (track) => {
+    dispatch(setCurrentTrack(track));
+  };
 
   if (loading) return <LoadingIndicator />;
   if (error) return <div>Error: {error}</div>;
@@ -28,12 +33,13 @@ const HomePage = () => {
               <div className={styles.trackInfo}>
                 <h3>{track.title}</h3>
                 <p>{track.artist}</p>
-                <AudioPlayer audioUrl={track.audioUrl} />
+                <button onClick={() => handlePlayTrack(track)}>Play</button>
               </div>
             </div>
           ))}
         </div>
       </section>
+      <AudioPlayer />
     </div>
   );
 };
