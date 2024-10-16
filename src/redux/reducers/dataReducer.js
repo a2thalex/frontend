@@ -11,6 +11,9 @@ import {
   FETCH_FEATURED_ARTIST_AILLUSION_REQUEST,
   FETCH_FEATURED_ARTIST_AILLUSION_SUCCESS,
   FETCH_FEATURED_ARTIST_AILLUSION_FAILURE,
+  FETCH_RECENT_TRACKS_REQUEST,
+  FETCH_RECENT_TRACKS_SUCCESS,
+  FETCH_RECENT_TRACKS_FAILURE,
 } from '../actions/dataActions';
 
 const initialState = {
@@ -18,6 +21,7 @@ const initialState = {
   featuredArtists: [],
   genresWithTracks: [],
   featuredArtistAillusion: null,
+  recentTracks: [],
   loading: false,
   error: null,
 };
@@ -28,6 +32,7 @@ const dataReducer = (state = initialState, action) => {
     case FETCH_FEATURED_ARTISTS_REQUEST:
     case FETCH_GENRES_WITH_TRACKS_REQUEST:
     case FETCH_FEATURED_ARTIST_AILLUSION_REQUEST:
+    case FETCH_RECENT_TRACKS_REQUEST:
       return {
         ...state,
         loading: true,
@@ -57,10 +62,17 @@ const dataReducer = (state = initialState, action) => {
         featuredArtistAillusion: action.payload,
         loading: false,
       };
+    case FETCH_RECENT_TRACKS_SUCCESS:
+      return {
+        ...state,
+        recentTracks: action.payload,
+        loading: false,
+      };
     case FETCH_FEATURED_TRACKS_FAILURE:
     case FETCH_FEATURED_ARTISTS_FAILURE:
     case FETCH_GENRES_WITH_TRACKS_FAILURE:
     case FETCH_FEATURED_ARTIST_AILLUSION_FAILURE:
+    case FETCH_RECENT_TRACKS_FAILURE:
       return {
         ...state,
         loading: false,

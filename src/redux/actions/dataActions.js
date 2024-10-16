@@ -16,6 +16,10 @@ export const FETCH_FEATURED_ARTIST_AILLUSION_REQUEST = 'FETCH_FEATURED_ARTIST_AI
 export const FETCH_FEATURED_ARTIST_AILLUSION_SUCCESS = 'FETCH_FEATURED_ARTIST_AILLUSION_SUCCESS';
 export const FETCH_FEATURED_ARTIST_AILLUSION_FAILURE = 'FETCH_FEATURED_ARTIST_AILLUSION_FAILURE';
 
+export const FETCH_RECENT_TRACKS_REQUEST = 'FETCH_RECENT_TRACKS_REQUEST';
+export const FETCH_RECENT_TRACKS_SUCCESS = 'FETCH_RECENT_TRACKS_SUCCESS';
+export const FETCH_RECENT_TRACKS_FAILURE = 'FETCH_RECENT_TRACKS_FAILURE';
+
 export const fetchFeaturedTracks = () => async (dispatch) => {
   dispatch({ type: FETCH_FEATURED_TRACKS_REQUEST });
   try {
@@ -53,5 +57,15 @@ export const fetchFeaturedArtistAillusion = () => async (dispatch) => {
     dispatch({ type: FETCH_FEATURED_ARTIST_AILLUSION_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: FETCH_FEATURED_ARTIST_AILLUSION_FAILURE, payload: error.message });
+  }
+};
+
+export const fetchRecentTracks = () => async (dispatch) => {
+  dispatch({ type: FETCH_RECENT_TRACKS_REQUEST });
+  try {
+    const response = await api.get('/api/tracks/recent');
+    dispatch({ type: FETCH_RECENT_TRACKS_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: FETCH_RECENT_TRACKS_FAILURE, payload: error.message });
   }
 };

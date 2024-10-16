@@ -58,7 +58,7 @@
   transform: scale(1.05);
 }
 
-.featuredSection, .featuredArtistSection, .genresSection {
+.featuredSection, .featuredArtistSection, .genresSection, .recentTracksSection {
   margin-bottom: 60px;
 }
 
@@ -285,6 +285,13 @@
   background-color: var(--accent-color);
 }
 
+.recentTracksSection {
+  background-color: var(--surface-color);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 768px) {
   .heroTitle {
     font-size: 3rem;
@@ -313,5 +320,9 @@
 
   .trackList {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .recentTracksSection {
+    padding: 20px;
   }
 }

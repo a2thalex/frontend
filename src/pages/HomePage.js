@@ -1,23 +1,31 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchFeaturedTracks, fetchGenresWithTracks, fetchFeaturedArtistAillusion } from '../redux/actions/dataActions';
+import { fetchFeaturedTracks, fetchGenresWithTracks, fetchFeaturedArtistAillusion, fetchRecentTracks } from '../redux/actions/dataActions';
 import LoadingIndicator from '../components/LoadingIndicator';
 import styles from './HomePage.module.css';
 import heroBackgroundImage from '../assets/hero-background.jpg';
 
 const HomePage = () => {
   const dispatch = useDispatch();
-  const { featuredTracks, genresWithTracks, featuredArtistAillusion, loading, error } = useSelector(state => state.data);
+  const { featuredTracks, genresWithTracks, featuredArtistAillusion, recentTracks, loading, error } = useSelector(state => state.data);
   const { isAuthenticated } = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(fetchFeaturedTracks());
     dispatch(fetchGenresWithTracks());
     dispatch(fetchFeaturedArtistAillusion());
+    dispatch(fetchRecentTracks());
   }, [dispatch]);
 
-  if (loading) return <LoadingIndicator />;
+  if (loading) {
+    return (
+      <div className={styles.loadingContainer}>
+        <LoadingIndicator />
+        <p>Loading amazing music content...</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -32,6 +40,28 @@ const HomePage = () => {
       </section>
 
       {error && <div className={styles.error}>Error: {error}</div>}
+
+      <section className={styles.recentTracksSection}>
+        <h2 className={styles.sectionTitle}>Recently Uploaded Tracks</h2>
+        <div className={styles.trackList}>
+          {recentTracks && recentTracks.length > 0 ? (
+            recentTracks.map(track => (
+              <div key={track._id} className={styles.trackItem}>
+                <img src={track.coverArtUrl || '/default-cover.jpg'} alt={track.title} className={styles.trackImage} />
+                <div className={styles.trackInfo}>
+                  <h4>{track.title}</h4>
+                  <p>{track.artist.name}</p>
+                  <audio controls src={track.audioUrl} className={styles.audioPlayer}>
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No recent tracks available at the moment.</p>
+          )}
+        </div>
+      </section>
 
       {featuredArtistAillusion && (
         <section className={styles.featuredArtistSection}>

@@ -14,6 +14,10 @@ api.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
+    // For file uploads, we need to set the content type to multipart/form-data
+    if (config.data instanceof FormData) {
+      config.headers['Content-Type'] = 'multipart/form-data';
+    }
     return config;
   },
   (error) => {
@@ -35,5 +39,15 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Upload track function
+export const uploadTrack = async (trackData) => {
+  try {
+    const response = await api.post('/tracks/upload', trackData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 export default api;

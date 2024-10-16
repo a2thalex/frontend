@@ -54,6 +54,11 @@ const Header = ({ locale, onLanguageChange, darkMode, onDarkModeToggle, enableDa
                   </Link>
                 </li>
                 <li className={styles.navItem}>
+                  <Link to="/upload" className={styles.navLink} onClick={() => handleNavClick('upload')}>
+                    <FormattedMessage id="app.header.upload" defaultMessage="Upload Track" />
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
                   <button onClick={handleLogout} className={styles.logoutButton} aria-label="Logout">
                     <FormattedMessage id="app.header.logout" defaultMessage="Logout" />
                   </button>

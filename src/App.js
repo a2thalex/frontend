@@ -20,6 +20,7 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const ArtistPage = lazy(() => import('./pages/ArtistPage'));
 const TrackPage = lazy(() => import('./pages/TrackPage'));
 const ArtistSignupPage = lazy(() => import('./pages/ArtistSignupPage'));
+const UploadPage = lazy(() => import('./pages/UploadPage'));
 
 function App() {
   const [locale, setLocale] = useState('en');
@@ -70,6 +71,7 @@ function App() {
                 <Route path="/artists/:id" element={<ArtistPage />} />
                 <Route path="/tracks/:id" element={<TrackPage />} />
                 <Route path="/artist-signup" element={<ArtistSignupPage />} />
+                <Route path="/upload" element={<UploadPage />} />
               </Routes>
             </Suspense>
           </main>
