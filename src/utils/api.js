@@ -19,6 +19,7 @@ api.interceptors.request.use(
     console.log('Request method:', config.method);
     console.log('Request data:', config.data);
     const token = localStorage.getItem('token');
+    console.log('Token from localStorage:', token);
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -26,6 +27,7 @@ api.interceptors.request.use(
     if (config.data instanceof FormData) {
       config.headers['Content-Type'] = 'multipart/form-data';
     }
+    console.log('Request headers:', config.headers);
     return config;
   },
   (error) => {
