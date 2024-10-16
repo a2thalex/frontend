@@ -38,12 +38,7 @@ export const register = (username, email, password) => async (dispatch) => {
     console.log('API base URL:', api.defaults.baseURL);
     const response = await api.post('/auth/register', { username, email, password });
     console.log('Registration response:', response);
-    if (response.data.token) {
-      dispatch({ type: REGISTER_SUCCESS, payload: { token: response.data.token } });
-      localStorage.setItem('token', response.data.token);
-    } else {
-      dispatch({ type: REGISTER_SUCCESS });
-    }
+    dispatch({ type: REGISTER_SUCCESS });
     return { type: REGISTER_SUCCESS };
   } catch (error) {
     console.error('Registration error:', error);
