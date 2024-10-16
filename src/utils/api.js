@@ -1,7 +1,11 @@
 import axios from 'axios';
 
+console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
+const baseURL = process.env.REACT_APP_API_URL || 'https://ntunz-backend-2b1ea1133876.herokuapp.com/api';
+console.log('Constructed baseURL:', baseURL);
+
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'https://ntunz-backend-2b1ea1133876.herokuapp.com/api',
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,6 +14,9 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
   (config) => {
+    console.log('Full request URL:', `${config.baseURL}${config.url}`);
+    console.log('Request method:', config.method);
+    console.log('Request data:', config.data);
     const token = localStorage.getItem('token');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
@@ -21,14 +28,24 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.error('Request error:', error);
     return Promise.reject(error);
   }
 );
 
 // Add a response interceptor
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('Response status:', response.status);
+    console.log('Response data:', response.data);
+    return response;
+  },
   (error) => {
+    console.error('Response error:', error);
+    if (error.response) {
+      console.error('Error response status:', error.response.status);
+      console.error('Error response data:', error.response.data);
+    }
     if (error.response && error.response.status === 401) {
       // Instead of automatically logging out, we'll dispatch an action to update the auth state
       // This will be handled in the auth reducer
