@@ -26,7 +26,13 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const enableDarkMode = useFeatureFlag('enableDarkMode');
   const dispatch = useDispatch();
-  useAnalytics();
+  
+  // Wrap useAnalytics in a try-catch block
+  try {
+    useAnalytics();
+  } catch (error) {
+    console.error('Error in useAnalytics:', error);
+  }
 
   useEffect(() => {
     dispatch(checkAuth());

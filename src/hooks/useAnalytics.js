@@ -5,10 +5,12 @@ export const useAnalytics = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (typeof window.gtag === 'function') {
+    if (typeof window.gtag === 'function' && location) {
       window.gtag('event', 'page_view', {
         page_path: location.pathname + location.search,
       });
+    } else if (!location) {
+      console.warn('Location is not available');
     } else {
       console.warn('Google Analytics not initialized');
     }
