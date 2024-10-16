@@ -1,28 +1,8 @@
 [build]
-  base = "."
-  publish = "build/"
   command = "npm run build"
-
-[context.production]
-  command = "npm run build"
-
-[context.production.environment]
-  REACT_APP_API_URL = "https://ntunz-backend-2b1ea1133876.herokuapp.com"
-  REACT_APP_ENVIRONMENT = "production"
-
-[context.staging]
-  command = "npm run build:staging"
-
-[context.staging.environment]
-  REACT_APP_API_URL = "https://ntunz-backend-2b1ea1133876.herokuapp.com"
-  REACT_APP_ENVIRONMENT = "staging"
+  publish = "build"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[dev]
-  command = "npm start"
-  port = 3000
-  publish = "build"
