@@ -28,7 +28,7 @@ const UploadTrackForm = () => {
     formData.append('coverArt', coverArtFile);
 
     try {
-      const response = await uploadTrack(formData);
+      await uploadTrack(formData);
       setMessage('Track uploaded successfully!');
       // Redirect to homepage after successful upload
       setTimeout(() => {
