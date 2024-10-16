@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+console.log('process.env:', process.env);
 console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
 const baseURL = process.env.REACT_APP_API_URL || 'https://ntunz-backend-2b1ea1133876.herokuapp.com/api';
 console.log('Constructed baseURL:', baseURL);

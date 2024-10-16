@@ -20,6 +20,11 @@
       gtag('js', new Date());
       gtag('config', '%REACT_APP_GOOGLE_ANALYTICS_ID%');
     </script>
+    <!-- Cache busting for main.js -->
+    <script>
+      // Add timestamp to force cache refresh
+      document.write('<script src="%PUBLIC_URL%/static/js/main.js?v=' + new Date().getTime() + '"\><\/script>');
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
