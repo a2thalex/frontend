@@ -15,8 +15,14 @@ export const login = (email, password) => async (dispatch) => {
     console.log('API base URL:', api.defaults.baseURL);
     const response = await api.post('/auth/login', { email, password });
     console.log('Login response:', response);
-    dispatch({ type: LOGIN_SUCCESS, payload: { token: response.data.token } });
-    localStorage.setItem('token', response.data.token);
+    if (response.data.token) {
+      dispatch({ type: LOGIN_SUCCESS, payload: { token: response.data.token } });
+      localStorage.setItem('token', response.data.token);
+      console.log('Token saved to localStorage');
+    } else {
+      console.error('Login successful but no token received');
+      dispatch({ type: LOGIN_FAILURE, payload: 'No token received' });
+    }
     return { type: LOGIN_SUCCESS };
   } catch (error) {
     console.error('Login error:', error);
@@ -28,6 +34,7 @@ export const login = (email, password) => async (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('token');
+  console.log('Token removed from localStorage');
   dispatch({ type: LOGOUT });
 };
 
@@ -39,7 +46,9 @@ export const register = (username, email, password) => async (dispatch) => {
     const response = await api.post('/auth/register', { username, email, password });
     console.log('Registration response:', response);
     dispatch({ type: REGISTER_SUCCESS });
-    return { type: REGISTER_SUCCESS };
+    
+    // Automatically log in after successful registration
+    return dispatch(login(email, password));
   } catch (error) {
     console.error('Registration error:', error);
     console.error('Error response:', error.response);
@@ -52,6 +61,9 @@ export const register = (username, email, password) => async (dispatch) => {
 export const checkAuth = () => (dispatch) => {
   const token = localStorage.getItem('token');
   if (token) {
+    console.log('Token found in localStorage, dispatching LOGIN_SUCCESS');
     dispatch({ type: LOGIN_SUCCESS, payload: { token } });
+  } else {
+    console.log('No token found in localStorage');
   }
 };

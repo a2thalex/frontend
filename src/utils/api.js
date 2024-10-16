@@ -2,7 +2,7 @@ import axios from 'axios';
 
 console.log('process.env:', process.env);
 console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
-const baseURL = 'https://ntunz-backend-2b1ea1133876.herokuapp.com/api';
+const baseURL = 'https://ntunz-backend-2b1ea1133876.herokuapp.com';
 console.log('Hardcoded baseURL:', baseURL);
 
 const api = axios.create({
@@ -22,6 +22,8 @@ api.interceptors.request.use(
     console.log('Token from localStorage:', token);
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
+    } else {
+      console.warn('No token found in localStorage');
     }
     // For file uploads, we need to set the content type to multipart/form-data
     if (config.data instanceof FormData) {
@@ -51,6 +53,7 @@ api.interceptors.response.use(
       console.error('Error response data:', error.response.data);
     }
     if (error.response && error.response.status === 401) {
+      console.warn('Received 401 Unauthorized response');
       // Instead of automatically logging out, we'll dispatch an action to update the auth state
       // This will be handled in the auth reducer
       if (window.store) {
@@ -67,6 +70,7 @@ export const uploadTrack = async (trackData) => {
     const response = await api.post('/tracks/upload', trackData);
     return response.data;
   } catch (error) {
+    console.error('Error uploading track:', error);
     throw error;
   }
 };
